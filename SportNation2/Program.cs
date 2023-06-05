@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SportNation2.Data;
+using SportNation2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,7 @@ builder.Services.AddDbContext<AppDbContext>(opts =>
 {
     opts.UseSqlite("Data Source=data.db;");
 });
-
+builder.Services.AddScoped<ICompetitionService, CompetitionService>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
