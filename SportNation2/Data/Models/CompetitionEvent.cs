@@ -4,7 +4,7 @@ namespace SportNation2.Data.Models
 {
     public class CompetitionEvent: Entity
     {
-
+        public string Name { get; set; }
         public int MinimumAge { get; set; }
         public int MaximumAge { get; set; }
 

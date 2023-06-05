@@ -16,15 +16,23 @@ namespace SportNation2.Data
         public DbSet<Competition> Competitions { get; set; }
         public DbSet<CompetitionEvent> CompetitionEvents { get; set; }
         public DbSet<Participation> Participations { get; set; }
+        public DbSet<Sport> Sports { get; set; }
 
 
         public AppDbContext(DbContextOptions opt) : base(opt)
         {
-            Database.EnsureCreated();
-            if (Database.GetPendingMigrations().Count() > 0)
+            try
             {
-                Database.Migrate();
+                Database.EnsureCreated();
+                if (Database.GetPendingMigrations().Count() > 0)
+                {
+                    Database.Migrate();
+                }
             }
+            catch (Exception)
+            {
+            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
