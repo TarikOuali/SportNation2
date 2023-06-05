@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(opts =>
 {
-    opts.UseSqlite("Data Source=c:\\data.db;");
+    opts.UseSqlite("Data Source=data.db;");
 });
 
 
