@@ -2,23 +2,31 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SportNation2.Data;
 using SportNation2.Services;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(opts =>
 {
-    opts.UseSqlite("Data Source=data.db;");
+    var dir = AppDomain.CurrentDomain.BaseDirectory;
+    var db = Path.Combine(dir, "data.db");
+    opts.UseSqlite($"Data Source={db};");
 });
 builder.Services.AddScoped<ICompetitionService, CompetitionService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";        
     });
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+    options.AddPolicy("Basic", policy => policy.RequireClaim(ClaimTypes.Role, "Basic"));
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

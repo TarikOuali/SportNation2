@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SportNation2.Models;
 using System.Diagnostics;
 
@@ -15,9 +16,11 @@ namespace SportNation2.Controllers
 
         public IActionResult Index()
         {
+            var u = User;
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
